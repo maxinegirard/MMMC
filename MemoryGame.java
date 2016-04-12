@@ -8,16 +8,18 @@ public class MemoryGame extends JFrame implements ActionListener{
   //make private variables     
    private final int WINDOW_WIDTH = 500;  // Window width
    private final int WINDOW_HEIGHT = 500; // Window height
-   private JButton [] doors  = new JButton[16];//number of buttons
+   private JButton [][] doors  = new JButton[4][4];//number of buttons
   // private GameModel model= new GameModel();
    private String filler = "   "; 
-   private JLabel result;
+   private JLabel result;//need this??
    private int successes = 0;//this will need to be fixed
-   private JLabel successesLabel;
-   private int [] sources= new int [2];
-   private String [] images= new String[10];
-   //private BehindTheDoors pictures = new BehindTheDoors(); //adjust this to fit 
-   
+   private JLabel successesLabel;//need this??
+   private int [] sources= new int [2];//need this??
+   private String [] images= new String[10];//need this???
+   //private MatchImages icons= new MatchImages();
+   private boolean winner= false;
+   private boolean gameOver= false;
+
    //constructor 
    public MemoryGame(){
       //whole frame set up BorderLayout
@@ -33,13 +35,14 @@ public class MemoryGame extends JFrame implements ActionListener{
       banner.setFont(new Font("Comic Sans", Font.BOLD, 32));
       //create panels and add color color
       Panel north= new Panel();
-      north.setBackground(Color.cyan);
+      north.setBackground(new Color(174, 142, 206));
       Panel south= new Panel();
-      south.setBackground(Color.cyan);
+      south.setBackground(new Color(174, 142, 206));
       Panel east= new Panel();
-      east.setBackground(Color.cyan);
+      east.setBackground(new Color(174, 142, 206));
       Panel west= new Panel();
-      //west.setBackground(New Color(195,144,212));
+      west.setBackground(new Color(174, 142, 206));
+   
       //add stuff to the panels
       //north panel
       north.add(banner);
@@ -52,20 +55,26 @@ public class MemoryGame extends JFrame implements ActionListener{
       south.add(result);
       add(south,BorderLayout.SOUTH);
       //east panel
-      east.setLayout(new GridLayout(4,1));
+      east.setLayout(new GridLayout(6,1));
+      //player information
+      JLabel player=new JLabel(" Player: ");
+      player.setFont(new Font("Comic Sans", Font.BOLD, 16));
+      east.add(player);
+      //add switchplayer kind of thing
+      east.add( new JLabel(" 1 "));
       //add timer components and successes
       JLabel timer=new JLabel( " Timer: ");
       timer.setFont(new Font("Comic Sans", Font.BOLD, 16));
       east.add(timer);
       // add actual timer here
-      east.add( new JLabel("                   "));
+      east.add( new JLabel(" 10:56 "));
       JLabel matches=new JLabel( " Matches Made: ");
       matches.setFont(new Font("Comic Sans", Font.BOLD, 16));
       east.add (matches);
       //figure out how to do successes
       east.add( new JLabel("                   "));
      
-                 /**********detailed set up of the Panel (GridLayot) for the MemoryGame************/               
+      //detailed set up of the Panel (GridLayot) for the MemoryGame               
       Panel pDoors = new Panel();
       pDoors.setLayout(new GridLayout(4,4)); 
    
@@ -77,21 +86,21 @@ public class MemoryGame extends JFrame implements ActionListener{
       
       // make components to put in the Pane, add them to the Panel and then add listener to them  
       /** this would probably be best done in its own method  ***/ 
-
-      for(int i=0;i<16;i++){
-      String symbol= "\u2605";
-         String doorNumber = i+1+""; 
-         doors[i] = new JButton(symbol);  
-         doors[i].setFont(new Font("Comic Sans", Font.BOLD, 32));
-         doors[i].addActionListener(this);
-         if (i%2==0){
-         doors[i].setBackground(Color.lightGray);
+   for(int rows=0; rows<4; rows++){
+      for(int cols=0;cols<4;cols++){
+         String symbol= "\u2605";
+         doors[rows][cols] = new JButton(symbol);  
+         doors[rows][cols].setFont(new Font("Comic Sans", Font.BOLD, 40));
+         doors[rows][cols].addActionListener(this);
+         if (cols%2==0){
+            doors[rows][cols].setBackground(new Color(217,215,255));
          }//close if
          else{
-         doors[i].setBackground(Color.white);
+            doors[rows][cols].setBackground(new Color(140, 72, 159));
          }//else
-         pDoors.add(doors[i]);  
-      }  //for loop
+         pDoors.add(doors[rows][cols]);  
+      }  //inner for loop
+      }//outer for loop
          //add components of buttons to the center panel 
       add(pDoors,BorderLayout.CENTER); 
       setVisible(true);     
