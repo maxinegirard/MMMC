@@ -15,10 +15,7 @@ public class MemoryGame extends JFrame implements ActionListener{
    private int successes = 0;//this will need to be fixed
    private JLabel successesLabel;//need this??
    private int [] sources= new int [2];//need this??
-   private String [] images= new String[10];//need this???
    //private MatchImages icons= new MatchImages();
-   private boolean winner= false;
-   private boolean gameOver= false;
 
    //constructor 
    public MemoryGame(){
@@ -33,14 +30,18 @@ public class MemoryGame extends JFrame implements ActionListener{
       setLayout(new BorderLayout());
       JLabel banner = new JLabel("Let's play a Memory Game");
       banner.setFont(new Font("Comic Sans", Font.BOLD, 32));
-      //create panels and add color color
-      Panel north= new Panel();
+      //create panels and add borders and color 
+      JPanel north= new JPanel();
+      north.setBorder(BorderFactory.createMatteBorder(3,3,0,3, Color.BLACK));
       north.setBackground(new Color(174, 142, 206));
-      Panel south= new Panel();
+      JPanel south= new JPanel();
+      south.setBorder(BorderFactory.createMatteBorder(0,3,3,3, Color.BLACK));
       south.setBackground(new Color(174, 142, 206));
-      Panel east= new Panel();
+      JPanel east= new JPanel();
+      east.setBorder(BorderFactory.createMatteBorder(0,0,0,3, Color.BLACK));
       east.setBackground(new Color(174, 142, 206));
-      Panel west= new Panel();
+      JPanel west= new JPanel();
+      west.setBorder(BorderFactory.createMatteBorder(0,3,0,0, Color.BLACK));
       west.setBackground(new Color(174, 142, 206));
    
       //add stuff to the panels
@@ -74,8 +75,9 @@ public class MemoryGame extends JFrame implements ActionListener{
       //figure out how to do successes
       east.add( new JLabel("                   "));
      
-      //detailed set up of the Panel (GridLayot) for the MemoryGame               
-      Panel pDoors = new Panel();
+      //detailed set up of the Panel (GridLayot) for the MemoryGame and add borders             
+      JPanel pDoors = new JPanel();
+      pDoors.setBorder( BorderFactory.createCompoundBorder(BorderFactory.createMatteBorder(3,3,3,3, Color.BLACK), BorderFactory.createRaisedBevelBorder()));
       pDoors.setLayout(new GridLayout(4,4)); 
    
      //add all panels to frame
