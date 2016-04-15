@@ -3,6 +3,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*; 
 import java.util.*; 
+import javax.swing.JOptionPane;
 
 public class MemoryGame extends JFrame implements ActionListener{
   //make private variables     
@@ -105,7 +106,10 @@ public class MemoryGame extends JFrame implements ActionListener{
       }//outer for loop
          //add components of buttons to the center panel 
       add(pDoors,BorderLayout.CENTER); 
-      setVisible(true);     
+      setVisible(true); 
+      
+       JOptionPane.showMessageDialog(null, "This is a matching game.  Find all the matches before the time runs out!", "Gameplay", JOptionPane.INFORMATION_MESSAGE); 
+    
    }//close public MemoryGame
    //create ActionPerformed
    public void actionPerformed(ActionEvent ae){
