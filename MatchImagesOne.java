@@ -10,9 +10,11 @@ class MatchImagesOne extends GameModelOne{
    boolean match = false;
    boolean gos = false;
    boolean winner = false;
+   int ROWS = 4
+   int COLS = 4
    int success = 0;
-   int counter = 0;
-   final int SIZE = 16; 
+   int turn1 = -1;
+   final int SIZE = 4; 
    
    MatchImages(){
       //not random, to test
@@ -26,69 +28,67 @@ class MatchImagesOne extends GameModelOne{
          images[i] = imageList.get(i);
       commented out to debug*/
       
-      images[0] = new ImageIcon("michelle1.jpg"); 
-      images[1] = new ImageIcon("michelle2.jpg");
-      images[2] = new ImageIcon("chyenne1.jpg");
-      images[3] = new ImageIcon("c.jpg");
-      images[4] = new ImageIcon("marilyn1.jpg");
-      images[5] = new ImageIcon("marilyn2.jpg");
-      images[6] = new ImageIcon("maxine1.jpg");
-      images[7] = new ImageIcon("maxine2.png");
-      images[8] = new ImageIcon("michelle1.jpg"); 
-      images[9] = new ImageIcon("michelle2.jpg");
-      images[10] = new ImageIcon("chyenne1.jpg");
-      images[11] = new ImageIcon("c.jpg");
-      images[12] = new ImageIcon("marilyn1.jpg");
-      images[13] = new ImageIcon("marilyn2.jpg");
-      images[14] = new ImageIcon("maxine1.jpg");
-      images[15] = new ImageIcon("maxine2.png");
-      //images1=new ImageIcon(...);
-      //images[0]=images1
-      //images[1]=images1
+      images[0] = new ImageIcon("michelle1.jpg" , "michelle 1"); 
+      images[1] = new ImageIcon("michelle2.jpg" , "michelle 2");
+      images[2] = new ImageIcon("chyenne1.jpg" , "chyenne 1");
+      images[3] = new ImageIcon("c.jpg" , "c");
+      images[4] = new ImageIcon("marilyn1.jpg" , "marilyn 1");
+      images[5] = new ImageIcon("marilyn2.jpg", "marilyn 2");
+      images[6] = new ImageIcon("maxine1.jpg" , "maxine 1");
+      images[7] = new ImageIcon("maxine2.png" , "mainxe 2");
+      images[8] = new ImageIcon("michelle1.jpg" ,"michelle 1"); 
+      images[9] = new ImageIcon("michelle2.jpg" , "michelle 2");
+      images[10] = new ImageIcon("chyenne1.jpg" , "chyenne 1");
+      images[11] = new ImageIcon("c.jpg" , "c");
+      images[12] = new ImageIcon("marilyn1.jpg" , "marilyn 1");
+      images[13] = new ImageIcon("marilyn2.jpg" , "marilyn 2");
+      images[14] = new ImageIcon("maxine1.jpg" , "maxine 1");
+      images[15] = new ImageIcon("maxine2.png" , "maxine 2");
+
    }//MatchImages Constructor
    
    int getRows(){
-      return(4);
+      return(ROWS);
       }
    int getCols(){
-      return(4);
+      return(COLS);
       }
+   int getSize(){
+      return(SIZE);
+   }// getSize
    
-   public int CompareImages(int success, boolean match){
+  /* public int CompareImages(int success, boolean match){
    
       if (match == false)
       //images disappear
       else
       //images stay alive but disabled
-      }   //CompareImages   
+      }   //CompareImages  */ 
       
-      public ImageIcon get(int i){ 
-        return(images[i]); 
+  public ImageIcon get(int i){ 
+      return(images[i]); 
       }  //not sure why we need this one....?   
       
-   public boolean gameOverStatus(int success, boolean gos){
-      if (success == 4){
-      gos = true;
-      return(gos);
-      }
+   public boolean gameOverStatus(boolean gos){
+      if(success == SIZE)   
+         return( true);
       else
-      return (gos);
-      }//gameOverStatus
+         return(false); 
+   }
+   
+    boolean isMatch(){
+    return(match);}
       
    void display(){};    
    
-   public boolean reportWinner(boolean gos, boolean winner){ 
+  /* public boolean reportWinner(boolean gos, boolean winner){ 
       if( gos == true){
       winner = true;
       return(winner);
       }
       else
       return(winner);
-      }//reportWinner  
-   
-   int getSize(){
-      return(SIZE);
-   }// getSize
+      }//reportWinner  */  
    
    public ImageIcon getImage(int i){
       if(i>=0 && i<SIZE)
@@ -97,15 +97,21 @@ class MatchImagesOne extends GameModelOne{
          return(images[0]); 
          }//ImageIcon
          
-    public boolean takeTurn (int[] sources){
-    //need to send in count as well?
-    //count = count+1
-      if (images[sources[0]]==images[sources[1]]){
-      match = true;
-      success = success + 1;
-      return(success);
+    public void takeTurn (int turn){
+      if(turn1<0){
+         // first choice
+         match = false; 
+         turn1 = turn;
       }
-      else
+      else{
+         //second choice
+         int turn2 = turn;
+         String turn1Description = images[turn1].toString();
+         String turn2Description = images[turn2].toString(); 
+         match = turn1Description.equals(turn2Description);
+         if(match) success +=1; 
+         choice1 = -1;   
+      }
       return(match);
 }//takeTurn
 }//class
