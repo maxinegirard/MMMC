@@ -17,7 +17,8 @@ public class MemoryGame extends JFrame implements ActionListener{
    private int [] sources = new int[2];
    private MatchImages icons;
    private boolean endGame = false;
-   private boolean match = false;
+   private boolean match;
+   private double count = 0.0;
    
    //private BehindTheDoors pictures = new BehindTheDoors(); //adjust this to fit 
    
@@ -100,40 +101,60 @@ public class MemoryGame extends JFrame implements ActionListener{
       setVisible(true);     
    }//close public MemoryGame
    //create ActionPerformed
-   public void actionPerformed(ActionEvent ae) {      
-            JButton source = (JButton)ae.getSource(); 
-
-            int i=0;
-            while(source != doors[i]){
-               i++; 
-            }//while 
-            if(count%2==.5){
-            sources[0] = i;
-            }
-            else{
-            sources[1] = i
-            }
-            doors[i].setIcon(icons.getImage(i));
-            doors[i].removeActionListener(this);
-            
-            
-            if(count%2==.5){
+   public void actionPerformed(ActionEvent ae) {   
+  
+      JButton source = (JButton)ae.getSource(); 
+     int i=0;
+      while( source != doors[i])
+         i++; 
+     
+      if(count%2.0==0){
+         sources[0] = i;
+         count = icons.clicks(count);
+         doors[i].setIcon(icons.getImage(i));
+         doors[i].removeActionListener(this);
+      }
+      else{
+         sources[1] = i;
+         count = icons.clicks(count);
+         doors[i].setIcon(icons.getImage(i));
+         doors[i].removeActionListener(this);
+ 
          match = icons.takeTurn(sources);
+         //if
          }
+            
+            
+             if(match == false && count%2.0==0){
+            //try{
+              // Thread.sleep(2000);
+            //}
+          //  catch(InterruptedException ie){}
+            doors[sources[0]].setIcon(null);
+            doors[sources[0]].addActionListener(this);
+            doors[sources[1]].setIcon(null);
+            doors[sources[1]].addActionListener(this); 
+         
+         }//if
+      
+            }
+            
+            
+           
+         
          //try{
           //  Thread.sleep(2000);
         // }
         // catch(InterruptedException ie){}
-
+   
       
       
-         endGame = icons.gameOverStatus(success, endGame);
-         if(endGame = true)
+        // endGame = icons.gameOverStatus(success, endGame);
+        // if(endGame = true)
            
       
       
       
-      }//for loop that keeps the game going
    }//action performed
-}//close class MemoryGame
+//close class MemoryGame
 

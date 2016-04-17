@@ -11,6 +11,7 @@ class MatchImages extends GameModel{
    boolean gos = false;
    boolean winner = false;
    final int SIZE = 16; 
+  
    
    MatchImages(){
       //not random, to test
@@ -40,6 +41,7 @@ class MatchImages extends GameModel{
       images[13] = new ImageIcon("marilyn2.jpg");
       images[14] = new ImageIcon("maxine1.jpg");
       images[15] = new ImageIcon("maxine2.png");
+      
       //images1=new ImageIcon(...);
       //images[0]=images1
       //images[1]=images1
@@ -52,12 +54,12 @@ class MatchImages extends GameModel{
       return(4);
       }
    
-   public int CompareImages(int success, boolean match){
+  // public CompareImages(int success, boolean match){
    
-      if (match == false)
-      success = success++;
-      return(success);
-      }   //takeTurn   
+    //  if (match == false)
+      //success = success++;
+      //return(success);
+      //}   //takeTurn   
       
       public ImageIcon get(int i){ 
         return(images[i]); 
@@ -94,12 +96,18 @@ class MatchImages extends GameModel{
          return(images[0]); 
          }//ImageIcon
          
+    public double clicks(double count){
+    count++;
+    return(count);
+    }
+         
     public boolean takeTurn (int[] sources){
       if (images[sources[0]]==images[sources[1]]){
       match = true;
-      return(true);
+      return(match);
       }
       else
       return(match);
-}//compare images
+      }
+      
 }//class
