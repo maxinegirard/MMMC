@@ -1,48 +1,50 @@
-//import inportant things to make program run
+//import important things to make program run
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*; 
 import java.util.*; 
+import javax.swing.JOptionPane;
 
 public class MemoryGame extends JFrame implements ActionListener{
-  //make private variables     
+   //make private variables     
    private final int WINDOW_WIDTH = 500;  // Window width
    private final int WINDOW_HEIGHT = 500; // Window height
-   private JButton [] doors  = new JButton[16];//number of buttons
-  // private GameModel model= new GameModel();
+   private JButton [][] doors  = new JButton[4][4];//number of buttons
    private String filler = "   "; 
-   private JLabel result;
-   private int success = 0;//this will need to be fixed
-   private JLabel successesLabel;
-   private int [] sources = new int[2];
-   private MatchImages icons;
-   private boolean endGame = false;
-   private boolean match;
-   private double count = 0.0;
-   
-   //private BehindTheDoors pictures = new BehindTheDoors(); //adjust this to fit 
-   
+   private int successes = 0;
+   private int [] sources= new int [2];
+   //private MatchImages icons= new MatchImages();//or matchImagesOnes
+   private JLabel success= new JLabel("    " +successes+"");
+   //private JLabel success= new JLabel ("   "+icons.isMatch()+"");
+   private JLabel matchStatus = new JLabel("Choose two cards");
+
    //constructor 
    public MemoryGame(){
-      /*****************whole frame set up BorderLayout****************/
+      //whole frame set up BorderLayout
       // Set the window title, size and close behaviour
       setTitle("Memory Game");
       setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
       setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); 
-      
+      setLocationRelativeTo(null);
    
-      //*the exterior JFrame will be in borderlayout 
+      //the exterior JFrame will be in borderlayout 
       setLayout(new BorderLayout());
       JLabel banner = new JLabel("Let's play a Memory Game");
       banner.setFont(new Font("Comic Sans", Font.BOLD, 32));
-      //create panels and add color color
-      Panel north= new Panel();
-      north.setBackground(Color.cyan);
-      Panel south= new Panel();
-      south.setBackground(Color.cyan);
-      Panel east= new Panel();
-      east.setBackground(Color.cyan);
-      Panel west= new Panel();
+      //create panels and add borders and color 
+      JPanel north= new JPanel();
+      north.setBorder(BorderFactory.createMatteBorder(3,3,0,3, Color.BLACK));
+      north.setBackground(new Color(174, 142, 206));
+      JPanel south= new JPanel();
+      south.setBorder(BorderFactory.createMatteBorder(0,3,3,3, Color.BLACK));
+      south.setBackground(new Color(174, 142, 206));
+      JPanel east= new JPanel();
+      east.setBorder(BorderFactory.createMatteBorder(0,0,0,3, Color.BLACK));
+      east.setBackground(new Color(174, 142, 206));
+      JPanel west= new JPanel();
+      west.setBorder(BorderFactory.createMatteBorder(0,3,0,0, Color.BLACK));
+      west.setBackground(new Color(174, 142, 206));
+   
       //add stuff to the panels
       //north panel
       north.add(banner);
@@ -50,28 +52,34 @@ public class MemoryGame extends JFrame implements ActionListener{
       //west panel
       west.add( new JLabel(filler));
       add(west,BorderLayout.WEST);
-      result = new JLabel(filler); 
+ 
       //south panel
-      south.add(result);
+      matchStatus.setFont(new Font("Comic Sans", Font.BOLD, 16));
+      south.add(matchStatus);
       add(south,BorderLayout.SOUTH);
       //east panel
       east.setLayout(new GridLayout(4,1));
-         //add timer components and successes
+
+      //add timer components and successes
       JLabel timer=new JLabel( " Timer: ");
       timer.setFont(new Font("Comic Sans", Font.BOLD, 16));
       east.add(timer);
       // add actual timer here
-      east.add( new JLabel("                   "));
+      east.add( new JLabel(" 10:56 "));
       JLabel matches=new JLabel( " Matches Made: ");
       matches.setFont(new Font("Comic Sans", Font.BOLD, 16));
       east.add (matches);
       //figure out how to do successes
-      east.add( new JLabel("                   "));
+      success.setFont(new Font("Comic Sans", Font.BOLD, 16));
+      east.add(success);
      
-      icons = new MatchImages();
-                 /**********detailed set up of the Panel (GridLayot) for the MemoryGame************/               
-      Panel pDoors = new Panel();
+      //detailed set up of the Panel (GridLayot) for the MemoryGame and add borders             
+      JPanel pDoors = new JPanel();
+      pDoors.setBorder( BorderFactory.createCompoundBorder(BorderFactory.createMatteBorder(3,3,3,3, Color.BLACK), BorderFactory.createRaisedBevelBorder()));
       pDoors.setLayout(new GridLayout(4,4)); 
+      
+      //add player messages to south panel
+      
    
      //add all panels to frame
       add(north,BorderLayout.NORTH);
@@ -79,73 +87,41 @@ public class MemoryGame extends JFrame implements ActionListener{
       add(east,BorderLayout.EAST);
       add(west,BorderLayout.WEST);
       
-    /**** make components to put in the Pane, add them to the Panel and then add listener to them*****/   
-      /** this would probably be best done in its own method  ***/    
-      for(int i=0;i<16;i++){
-         String symbol= "\u2605";
-         String doorNumber = i+1+""; 
-         doors[i] = new JButton(symbol);
-         //doors[i] = new JButton(doorNumber);  
-         doors[i].setFont(new Font("Comic Sans", Font.BOLD, 32));
-         doors[i].addActionListener(this);
-         if (i%2==0){
-            doors[i].setBackground(Color.lightGray);
-         }//close if
-         else{
-            doors[i].setBackground(Color.white);
-         }//else
-         pDoors.add(doors[i]);  
-      }  //for loop
-         //add components of buttons to the center panel 
+      // make components to put in the Pane, add them to the Panel and then add listener to them  
+      /** this would probably be best done in its own method  ***/ 
+      for(int rows=0; rows<4; rows++){
+         for(int cols=0;cols<4;cols++){
+            //set the back of the cards
+            String symbol= "\u2605";
+            doors[rows][cols] = new JButton(symbol);  
+            doors[rows][cols].setFont(new Font("Comic Sans", Font.BOLD, 40));
+            doors[rows][cols].addActionListener(this);
+            if (cols%2==0){
+               doors[rows][cols].setBackground(new Color(217,215,255));
+            }//close if
+            else{
+               doors[rows][cols].setBackground(new Color(140, 72, 159));
+            }//else
+            pDoors.add(doors[rows][cols]);  
+         }  //inner for loop
+      }//outer for loop
+      //add components of buttons to the center panel 
       add(pDoors,BorderLayout.CENTER); 
-      setVisible(true);     
+      
+      //make it visible
+      setVisible(true);
+      
+      //add a pop-up with instructions 
+      JOptionPane.showMessageDialog(null, "This is a matching game.  Find all the matches before the time runs out!", "Gameplay", JOptionPane.INFORMATION_MESSAGE); 
+    
    }//close public MemoryGame
-   //create ActionPerformed
-   public void actionPerformed(ActionEvent ae) {   
    
-      JButton source = (JButton)ae.getSource();
-      
-      if(count>1 && match == false && count%2.0==0){
-         doors[sources[0]].setIcon(null);
-         doors[sources[0]].addActionListener(this);
-         doors[sources[1]].setIcon(null);
-         doors[sources[1]].addActionListener(this);   
-       }
-       match = false;
-      
-       
-       int i=0;
-      while( source != doors[i])
-         i++; 
-     
-      if(count%2.0==0){
-         sources[0] = i;
-         count = icons.clicks(count);
-         doors[i].setIcon(icons.getImage(i));
-         doors[i].removeActionListener(this);
-         
-      }
-      else{
-         sources[1] = i;
-         count = icons.clicks(count);
-         doors[i].setIcon(icons.getImage(i));
-         doors[i].removeActionListener(this);
-      
-         match = icons.takeTurn(sources);
-         //if
-      }
-      
-      
-         
-      //if      
-   }
-        
-        // endGame = icons.gameOverStatus(success, endGame);
-        // if(endGame = true)
-           
-      
-      
-      
-}//action performed
-//close class MemoryGame
-
+   //create ActionPerformed
+   public void actionPerformed(ActionEvent ae){
+      JButton source=(JButton)ae.getSource();
+      successes++;
+      success.setText("    "+successes+" ");
+      //for matchStatus get the return statement from MatchImages and set it at the bottom
+      //matchStatus.setText(icons.isMatch());
+      }//action performed
+}//close class MemoryGame
