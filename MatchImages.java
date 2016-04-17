@@ -42,9 +42,7 @@ class MatchImages extends GameModel{
       images[14] = new ImageIcon("maxine1.jpg");
       images[15] = new ImageIcon("maxine2.png");
       
-      //images1=new ImageIcon(...);
-      //images[0]=images1
-      //images[1]=images1
+     
    }//MatchImages Constructor
    
    int getRows(){
@@ -54,12 +52,7 @@ class MatchImages extends GameModel{
       return(4);
       }
    
-  // public CompareImages(int success, boolean match){
    
-    //  if (match == false)
-      //success = success++;
-      //return(success);
-      //}   //takeTurn   
       
       public ImageIcon get(int i){ 
         return(images[i]); 
@@ -102,12 +95,15 @@ class MatchImages extends GameModel{
     }
          
     public boolean takeTurn (int[] sources){
-      if (images[sources[0]]==images[sources[1]]){
+    String imageName1 = images[sources[0]].toString();
+    String imageName2 = images[sources[1]].toString();
+      if (imageName1 ==imageName2){
       match = true;
       return(match);
       }
-      else
+      else{
+      match = false;
       return(match);
-      }
+      }}
       
 }//class

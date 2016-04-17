@@ -102,9 +102,19 @@ public class MemoryGame extends JFrame implements ActionListener{
    }//close public MemoryGame
    //create ActionPerformed
    public void actionPerformed(ActionEvent ae) {   
-  
-      JButton source = (JButton)ae.getSource(); 
-     int i=0;
+   
+      JButton source = (JButton)ae.getSource();
+      
+      if(count>1 && match == false && count%2.0==0){
+         doors[sources[0]].setIcon(null);
+         doors[sources[0]].addActionListener(this);
+         doors[sources[1]].setIcon(null);
+         doors[sources[1]].addActionListener(this);   
+       }
+       match = false;
+      
+       
+       int i=0;
       while( source != doors[i])
          i++; 
      
@@ -113,48 +123,29 @@ public class MemoryGame extends JFrame implements ActionListener{
          count = icons.clicks(count);
          doors[i].setIcon(icons.getImage(i));
          doors[i].removeActionListener(this);
+         
       }
       else{
          sources[1] = i;
          count = icons.clicks(count);
          doors[i].setIcon(icons.getImage(i));
          doors[i].removeActionListener(this);
- 
+      
          match = icons.takeTurn(sources);
          //if
-         }
-            
-            
-             if(match == false && count%2.0==0){
-            //try{
-              // Thread.sleep(2000);
-            //}
-          //  catch(InterruptedException ie){}
-            doors[sources[0]].setIcon(null);
-            doors[sources[0]].addActionListener(this);
-            doors[sources[1]].setIcon(null);
-            doors[sources[1]].addActionListener(this); 
+      }
+      
+      
          
-         }//if
-      
-            }
-            
-            
-           
-         
-         //try{
-          //  Thread.sleep(2000);
-        // }
-        // catch(InterruptedException ie){}
-   
-      
-      
+      //if      
+   }
+        
         // endGame = icons.gameOverStatus(success, endGame);
         // if(endGame = true)
            
       
       
       
-   }//action performed
+}//action performed
 //close class MemoryGame
 

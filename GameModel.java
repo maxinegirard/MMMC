@@ -13,6 +13,5 @@ abstract class GameModel{
    abstract int getCols(); 
    abstract void display(); 
    abstract boolean reportWinner(boolean gos, boolean winner); 
-  //abstract boolean CompareImages(int sources[]);  
    
 }// class
