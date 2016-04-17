@@ -12,6 +12,6 @@ abstract class GameModelOne{
    abstract int getCols(); 
    abstract void display(); 
    abstract String reportWinner(); 
-   /*abstract boolean CompareImages(int sources[]);  */
+   
    
 }// class

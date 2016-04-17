@@ -10,11 +10,12 @@ class MatchImagesOne extends GameModelOne{
    boolean match = false;
    boolean gos = false;
    boolean winner = false;
+   String status = "";
    int ROWS = 4
    int COLS = 4
-   int success = 0;
+   int successes = 0;
    int turn1 = -1;
-   final int SIZE = 4; 
+   final int SIZE = 8; 
    
    MatchImages(){
       //not random, to test
@@ -56,46 +57,37 @@ class MatchImagesOne extends GameModelOne{
    int getSize(){
       return(SIZE);
    }// getSize
-   
-  /* public int CompareImages(int success, boolean match){
-   
-      if (match == false)
-      //images disappear
-      else
-      //images stay alive but disabled
-      }   //CompareImages  */ 
+  
       
   public ImageIcon get(int i){ 
       return(images[i]); 
       }  //not sure why we need this one....?   
       
    public boolean gameOverStatus(boolean gos){
-      if(success == SIZE)   
+      if(successes == SIZE)   
          return( true);
       else
          return(false); 
-   }
+   }//end gameOverStatus
    
-    boolean isMatch(){
-    return(match);}
+   public isMatch(boolean match, String status){
+       if(match == true){
+       status = "it's a match";
+       }
+       else{
+       status = "this is not a match";
+       }
+       return(status);
+       }//end isMatch
       
    void display(){};    
-   
-  /* public boolean reportWinner(boolean gos, boolean winner){ 
-      if( gos == true){
-      winner = true;
-      return(winner);
-      }
-      else
-      return(winner);
-      }//reportWinner  */  
    
    public ImageIcon getImage(int i){
       if(i>=0 && i<SIZE)
          return(images[i]); 
       else
          return(images[0]); 
-         }//ImageIcon
+         }//end ImageIcon
          
     public void takeTurn (int turn){
       if(turn1<0){
@@ -109,9 +101,9 @@ class MatchImagesOne extends GameModelOne{
          String turn1Description = images[turn1].toString();
          String turn2Description = images[turn2].toString(); 
          match = turn1Description.equals(turn2Description);
-         if(match) success +=1; 
-         choice1 = -1;   
+         if(match) successes +=1; 
+         turn1 = -1;   
       }
-      return(match);
+ 
 }//takeTurn
 }//class
