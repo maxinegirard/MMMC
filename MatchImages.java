@@ -47,36 +47,47 @@ class MatchImages extends GameModel{
    
    int getRows(){
       return(4);
-      }
+   }
    int getCols(){
       return(4);
-      }
+   }
    
    
       
-      public ImageIcon get(int i){ 
-        return(images[i]); 
-      }  //not sure why we need this one....?   
+   public ImageIcon get(int i){ 
+      return(images[i]); 
+   }  //not sure why we need this one....?   
       
    public boolean gameOverStatus(int success, boolean gos){
-      if (success == 4){
-      gos = true;
-      return(gos);
+      if (success == 8){
+         gos = true;
+         return(gos);
       }
       else
-      return (gos);
-      }//gameOverStatus
+         return (gos);
+   }//gameOverStatus
+   
+   
+   public String isMatch(boolean match, String status){
+       if(match == true){
+       status = "it's a match";
+       }
+       else{
+       status = "this is not a match";
+       }
+       return(status);
+       }
       
    void display(){};    
    
    public boolean reportWinner(boolean gos, boolean winner){ 
       if( gos == true){
-      winner = true;
-      return(winner);
+         winner = true;
+         return(winner);
       }
       else
-      return(winner);
-      }//reportWinner  
+         return(winner);
+   }//reportWinner  
    
    int getSize(){
       return(SIZE);
@@ -87,23 +98,19 @@ class MatchImages extends GameModel{
          return(images[i]); 
       else
          return(images[0]); 
-         }//ImageIcon
+   }//ImageIcon
          
-    public double clicks(double count){
-    count++;
-    return(count);
-    }
          
-    public boolean takeTurn (int[] sources){
-    String imageName1 = images[sources[0]].toString();
-    String imageName2 = images[sources[1]].toString();
+   public boolean takeTurn (int[] sources){
+      String imageName1 = images[sources[0]].toString();
+      String imageName2 = images[sources[1]].toString();
       if (imageName1 ==imageName2){
-      match = true;
-      return(match);
+         match = true;
+         return(match);
       }
       else{
-      match = false;
-      return(match);
+         match = false;
+         return(match);
       }}
       
 }//class
