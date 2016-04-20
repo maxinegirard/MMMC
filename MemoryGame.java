@@ -127,6 +127,8 @@ public class MemoryGame extends JFrame implements ActionListener{
          match = icons.takeTurn(sources);
          if(match == true){
          success++;
+         doors[sources[0]].removeActionListener(this);
+         doors[sources[1]].removeActionListener(this);
          endGame = icons.gameOverStatus(success, endGame);
          if(endGame == true)
          System.out.println("You win!");
